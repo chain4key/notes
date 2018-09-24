@@ -40,7 +40,7 @@ nmap -sV -T4 -Pn -oG ServiceDetect.gnmap -iL LiveHosts.txt
 + 扫描系统信息
 
 ```sh
-nmap -O -T4 -Pn -oG OSDetect -iL LiveHosts.txt
+nmap -O -T4 -Pn -oG OSDetect.gnmap -iL LiveHosts.txt
 ```
 
 + 系统和服务检测
@@ -48,3 +48,43 @@ nmap -O -T4 -Pn -oG OSDetect -iL LiveHosts.txt
 ```sh
 nmap -O -sV -T4 -Pn -p U:53,111,137,T:21-25,80,139,8080 -oG OS_Service_Detct.gnmap -iL LiveHosts.txt
 ```
+
+### nmap 躲避防火墙
+
++ 分段 
+
+```sh
+nmap -f 
+```
+
++ 修改默认 MTU 大小，但必须为 8 的倍数(8，16，24，32 等等)
+
+```sh
+nmap --mtu 24
+```
+
++ 生成随机数量的欺骗
+
+```sh
+nmap -D RND:10 [Target IP]
+```
+
++ 手动指定欺骗使用的 IP
+
+```sh
+nmap -D decy1,decoy2,decoy3 etc.
+```
+
++ 僵尸网络扫描，首先要找到僵尸网络的 IP
+
+```sh
+nmap -sI [Zombie IP] [Target IP]
+```
+
++ 指定源端口号
+
+```sh
+nmap --source-port 80 [Target IP]
+```
+
++ 在每个扫描包后追加
