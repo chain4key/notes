@@ -87,4 +87,28 @@ nmap -sI [Zombie IP] [Target IP]
 nmap --source-port 80 [Target IP]
 ```
 
-+ 在每个扫描包后追加
++ 在每个扫描数据包后追加随机数量的数据
+
+```sh
+nmap --data-length 25 [Target IP]
+```
+
++ MAC 地址欺骗，可以生成不同主机的 MAC 地址
+
+```sh
+nmap --spoof-mac Dell/Apple/3Com [Target IP]
+```
+
+### nmap 进行 WEB 扫描
+
+```sh
+cd /usr/share/nmap/scripts
+wget http://www.computec.ch/projekte/vulscn/download/nmap_nse_vulsan-2.0.tar.gz
+tar -xvf nmap_nse_vulsan-2.0.tar.gz
+nmap -sS -sV --script=vulscan/vulscan.nse [Target IP]
+nmap -sS -sV --script=vulscan/vulscan.nse -script-args vulscandb=scipvuldb.csv [Target IP]
+nmap -sS -sV --script=vulscan/vulscan.nse -script-args vulscandb=scipvuldb.csv -p80 [Target IP]
+nmap -PN -sS -sV --script=vulscan -script-args vulscancorrelation=1 -p80 [Target IP]
+nmap -sV --script=vuln [Target IP]
+nmap -PN -sS -sV --script=all -script-args vulscancorrelation=1 [Target IP]
+```
